@@ -24,10 +24,21 @@
 ## Example
 
 ```typescript
-import { play } from "https://deno.land/x/audio@0.2.0/mod.ts";
+import { play, pause, setVolume } from "https://deno.land/x/audio@0.3.0/mod.ts";
 
 // supports mp3, wav, vorbis, flac
-await play("music.mp3");
+
+// play music.mp3 with 3/4 of the full volume
+const idx = play("music.mp3", 0.75);  
+setTimeout(() => {
+  // increase the volume after 1.5s
+  setVolume(idx, 1);
+}, 1500);
+
+setTimeout(() => {
+  // pause the track after 3s
+  pause(idx);
+}, 3000);
 ```
 
 ## Building from source
@@ -36,13 +47,12 @@ await play("music.mp3");
 
 - [deno](https://deno.land/)
 - [rust](https://www.rust-lang.org/)
-- [deno_bindgen](https://github.com/denoland/deno_bindgen)
 - libasound2-dev - `apt-get install libasound2-dev`
 
 ## Building
 
 ```bash
-$ deno_bindgen --release
+$ cargo b --release
 ```
 
 ## Example
