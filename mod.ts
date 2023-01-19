@@ -18,7 +18,7 @@ function getLibraryPath(lib: string): string {
 let audioCounter = 0;
 const deno_audio = Deno.dlopen(getLibraryPath("deno_audio"), {
   play: {
-    parameters: ["pointer", "u32", "f32"],
+    parameters: ["pointer", "u32", "f32", "u8"],
     result: "void",
     nonblocking: true,
   },
@@ -29,11 +29,11 @@ const deno_audio = Deno.dlopen(getLibraryPath("deno_audio"), {
     nonblocking: false,
   },
 });
-export function play(a0: string, volume: number) {
+export function play(a0: string, volume: number, loop: boolean) {
   const a0_buf = new TextEncoder().encode(a0);
   // this is very instable at the moment... needs to be replaced with a better library
   const a0_ptr = Deno.UnsafePointer.of(a0_buf);
-  deno_audio.symbols.play(a0_ptr, a0_buf.length, volume);
+  deno_audio.symbols.play(a0_ptr, a0_buf.length, volume, loop ? 1 : 0);
   return audioCounter++;
 }
 export function pause(idx: number) {

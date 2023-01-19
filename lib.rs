@@ -19,14 +19,18 @@ unsafe fn ptr_to_string(ptr: *const u8, len: usize) -> String {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn play(buf: *const u8, len: usize, volume: f32) {
+pub unsafe extern "C" fn play(buf: *const u8, len: usize, volume: f32, in_loop: u8) {
     //!# Safety
     let filename = ptr_to_string(buf, len);
     let (_stream, handle) = rodio::OutputStream::try_default().unwrap();
     let sink = Sink::try_new(&handle).unwrap();
 
     let file = std::fs::File::open(filename).unwrap();
-    sink.append(Decoder::new(BufReader::new(file)).unwrap());
+    if in_loop == 1 {
+        sink.append(Decoder::new_looped(BufReader::new(file)).unwrap());
+    } else {
+        sink.append(Decoder::new(BufReader::new(file)).unwrap());
+    }
     sink.set_volume(volume);
 
     let idx: usize;
