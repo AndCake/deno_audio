@@ -11,3 +11,4 @@ crate-type = ["cdylib"]
 
 [dependencies]
 rodio = "0.16.0"
+bstr = "0.2"
