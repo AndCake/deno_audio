@@ -1,6 +1,6 @@
 [package]
 name = "deno_audio"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Divy Srivastava <dj.srivastava23@gmail.com>", "Robert Kunze"]
 edition = "2018"
 publish = false
@@ -10,5 +10,5 @@ path = "lib.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
-rodio = "0.16.0"
+rodio = "0.17.0"
 bstr = "0.2"
